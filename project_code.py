@@ -4,7 +4,6 @@ import os
 import os.path
 from os import listdir
 from os.path import isfile, join
-import time
 
 
 class Encryptor:
@@ -62,96 +61,81 @@ class Encryptor:
             self.decrypt_file(file_name)
 
 
-key =b'\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x99'
+key = ['garbage',b'\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x99', b'\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18', b'\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x69', b'[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e']
+# key =b'\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x99'
 # key  = bytes(key,encoding='utf-8')
 # key = k.encode('UTF-8')
-print(key)
-defaultEnc = Encryptor(key)
+# print(key)
+defaultEnc = Encryptor(key[1])
 clear = lambda: os.system('cls')
 
+curr = 1
 
 
-# if os.path.isfile('data.txt.enc'):
+def menuloop(curr):
 
-# while True:
-        
-#     clear()
-#     password = str(input("Enter password: "))
-#     defaultEnc.decrypt_file("data.txt.enc")
-#     p = ''
-#     with open("data.txt", "r") as f:
-#         p = f.readlines()
-#     if p[0] == password:
-#         defaultEnc.encrypt_file("data.txt")
-#         break
-#     else:
-#         defaultEnc.encrypt_file("data.txt")
+    clear()
+    print("-----------Key in use => KEY "+str(curr)+"-----------\n")
+    want = str(input("Do you want to change current key of AES (Y/N)?\n"))
 
-clear()
-want = str(input("Do you want to enter new key for AES or continue with the default key\nyes : to enter new key\nno  : continue with default key\n"))
+    if want == "Y":
 
-if want == "yes":
+        curr = int(input("\nKEY MENU\n1. Enter '1' to select KEY 1.\n2. Enter '2' to select KEY 2.\n3. Enter '3' to select KEY 3.\n4. Enter '4' to select KEY 4.\n"))
 
-    temp = str(input("\nEnter new encryption key: "))
-    newKey = bytes(temp,'utf-8')
+        # print(newKey)
+        enc = Encryptor(key[curr])
+            
+        while True:        
+            clear()
+            print("-----------Key in use => KEY "+str(curr)+"-----------\n")
+            choice = int(input(
+                "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to select key.\n6. Press '6' to exit.\n"))
+            clear()
+            
+            if choice == 1:
+                enc.encrypt_file(str(input("Enter name of file to encrypt: ")))
+            elif choice == 2:
+                enc.decrypt_file(str(input("Enter name of file to decrypt: ")))
+            elif choice == 3:
+                enc.encrypt_all_files()
+            elif choice == 4:
+                enc.decrypt_all_files()
+            elif choice == 5:
+                menuloop(curr)
+                exit()
+            elif choice == 6:
+                exit()
+            else:
+                print("Please select a valid option!")
 
-    # print(newKey)
-    enc = Encryptor(newKey)
-        
-    while True:        
-        clear()
-        choice = int(input(
-            "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to exit.\n"))
-        clear()
-        
-        if choice == 1:
-            enc.encrypt_file(str(input("Enter name of file to encrypt: ")))
-        elif choice == 2:
-            enc.decrypt_file(str(input("Enter name of file to decrypt: ")))
-        elif choice == 3:
-            enc.encrypt_all_files()
-        elif choice == 4:
-            enc.decrypt_all_files()
-        elif choice == 5:
-            exit()
-        else:
-            print("Please select a valid option!")
-
-else:
-        
-    while True:           
-        clear()
-        choice = int(input(
-            "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to exit.\n"))
-        clear()
-        
-        if choice == 1:
-            defaultEnc.encrypt_file(str(input("Enter name of file to encrypt: ")))
-        elif choice == 2:
-            defaultEnc.decrypt_file(str(input("Enter name of file to decrypt: ")))
-        elif choice == 3:
-            defaultEnc.encrypt_all_files()
-        elif choice == 4:
-            defaultEnc.decrypt_all_files()
-        elif choice == 5:
-            exit()
-        else:
-            print("Please select a valid option!")    
+    else:
+            
+        while True:           
+            clear()
+            print("-----------Key in use => KEY "+str(curr)+"-----------\n")
+            choice = int(input(
+                "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to select key.\n6. Press '6' to exit.\n"))
+            clear()
+            
+            if choice == 1:
+                defaultEnc.encrypt_file(str(input("Enter name of file to encrypt: ")))
+            elif choice == 2:
+                defaultEnc.decrypt_file(str(input("Enter name of file to decrypt: ")))
+            elif choice == 3:
+                defaultEnc.encrypt_all_files()
+            elif choice == 4:
+                defaultEnc.decrypt_all_files()
+            elif choice == 5:
+                menuloop(curr)
+                exit()
+            elif choice == 6:
+                exit()
+            else:
+                print("Please select a valid option!")    
 
     
 
-# else:
-#     while True:
-#         clear()
-#         password = str(input("Setting up stuff. Enter a password that will be used for decryption: "))
-#         repassword = str(input("Confirm password: "))
-#         if password == repassword:
-#             break
-#         else:
-#             print("Passwords Mismatched!")
-#     f = open("data.txt", "w+")
-#     f.write(password)
-#     f.close()
-#     defaultEnc.encrypt_file("data.txt")
-#     print("Please restart the program to complete the setup")
-#     time.sleep(15)
+print("COMPUTER NETWORK PROJECT\n\n")
+print("Made By:\nTejas Harish Borkar 2K18/CO/373\nTushar Ahuja        2K18/CO/373")
+
+menuloop(curr)
