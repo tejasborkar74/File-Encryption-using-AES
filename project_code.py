@@ -7,7 +7,6 @@ from os.path import isfile, join
 import time
 
 
-
 class Encryptor:
     def __init__(self, key):
         self.key = key
@@ -63,89 +62,96 @@ class Encryptor:
             self.decrypt_file(file_name)
 
 
-key = b'[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e'
+key =b'\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x99'
+# key  = bytes(key,encoding='utf-8')
+# key = k.encode('UTF-8')
+print(key)
 defaultEnc = Encryptor(key)
 clear = lambda: os.system('cls')
 
 
 
-if os.path.isfile('data.txt.enc'):
+# if os.path.isfile('data.txt.enc'):
 
-    while True:
+# while True:
         
+#     clear()
+#     password = str(input("Enter password: "))
+#     defaultEnc.decrypt_file("data.txt.enc")
+#     p = ''
+#     with open("data.txt", "r") as f:
+#         p = f.readlines()
+#     if p[0] == password:
+#         defaultEnc.encrypt_file("data.txt")
+#         break
+#     else:
+#         defaultEnc.encrypt_file("data.txt")
+
+clear()
+want = str(input("Do you want to enter new key for AES or continue with the default key\nyes : to enter new key\nno  : continue with default key\n"))
+
+if want == "yes":
+
+    temp = str(input("\nEnter new encryption key: "))
+    newKey = bytes(temp,'utf-8')
+
+    # print(newKey)
+    enc = Encryptor(newKey)
+        
+    while True:        
         clear()
-        password = str(input("Enter password: "))
-        defaultEnc.decrypt_file("data.txt.enc")
-        p = ''
-        with open("data.txt", "r") as f:
-            p = f.readlines()
-        if p[0] == password:
-            defaultEnc.encrypt_file("data.txt")
-            break
+        choice = int(input(
+            "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to exit.\n"))
+        clear()
+        
+        if choice == 1:
+            enc.encrypt_file(str(input("Enter name of file to encrypt: ")))
+        elif choice == 2:
+            enc.decrypt_file(str(input("Enter name of file to decrypt: ")))
+        elif choice == 3:
+            enc.encrypt_all_files()
+        elif choice == 4:
+            enc.decrypt_all_files()
+        elif choice == 5:
+            exit()
         else:
-            defaultEnc.encrypt_file("data.txt")
+            print("Please select a valid option!")
 
-    clear()
-    want = str(input("Do you want to enter new key for AES or continue with the default key\nyes : to enter new key\nno  : continue with default key\n"))
-
-    if want == "yes":
-        newKey = str(input("\nEnter new encryption key: "))
-        enc = Encryptor(newKey)
+else:
         
-        while True:        
-            clear()
-            choice = int(input(
-                "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to exit.\n"))
-            clear()
+    while True:           
+        clear()
+        choice = int(input(
+            "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to exit.\n"))
+        clear()
         
-            if choice == 1:
-                enc.encrypt_file(str(input("Enter name of file to encrypt: ")))
-            elif choice == 2:
-                enc.decrypt_file(str(input("Enter name of file to decrypt: ")))
-            elif choice == 3:
-                enc.encrypt_all_files()
-            elif choice == 4:
-                enc.decrypt_all_files()
-            elif choice == 5:
-                exit()
-            else:
-                print("Please select a valid option!")
-
-    else:
-        
-        while True:           
-            clear()
-            choice = int(input(
-                "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to exit.\n"))
-            clear()
-        
-            if choice == 1:
-                defaultEnc.encrypt_file(str(input("Enter name of file to encrypt: ")))
-            elif choice == 2:
-                defaultEnc.decrypt_file(str(input("Enter name of file to decrypt: ")))
-            elif choice == 3:
-                defaultEnc.encrypt_all_files()
-            elif choice == 4:
-                defaultEnc.decrypt_all_files()
-            elif choice == 5:
-                exit()
-            else:
-                print("Please select a valid option!")    
+        if choice == 1:
+            defaultEnc.encrypt_file(str(input("Enter name of file to encrypt: ")))
+        elif choice == 2:
+            defaultEnc.decrypt_file(str(input("Enter name of file to decrypt: ")))
+        elif choice == 3:
+            defaultEnc.encrypt_all_files()
+        elif choice == 4:
+            defaultEnc.decrypt_all_files()
+        elif choice == 5:
+            exit()
+        else:
+            print("Please select a valid option!")    
 
     
 
-else:
-    while True:
-        clear()
-        password = str(input("Setting up stuff. Enter a password that will be used for decryption: "))
-        repassword = str(input("Confirm password: "))
-        if password == repassword:
-            break
-        else:
-            print("Passwords Mismatched!")
-    f = open("data.txt", "w+")
-    f.write(password)
-    f.close()
-    defaultEnc.encrypt_file("data.txt")
-    print("Please restart the program to complete the setup")
-    time.sleep(15)
+# else:
+#     while True:
+#         clear()
+#         password = str(input("Setting up stuff. Enter a password that will be used for decryption: "))
+#         repassword = str(input("Confirm password: "))
+#         if password == repassword:
+#             break
+#         else:
+#             print("Passwords Mismatched!")
+#     f = open("data.txt", "w+")
+#     f.write(password)
+#     f.close()
+#     defaultEnc.encrypt_file("data.txt")
+#     print("Please restart the program to complete the setup")
+#     time.sleep(15)
