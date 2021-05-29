@@ -46,7 +46,7 @@ class Encryptor:
         dirs = []
         for dirName, subdirList, fileList in os.walk(dir_path):
             for fname in fileList:
-                if (fname != 'script.py' and fname != 'data.txt.enc'):
+                if fname != 'code.py':
                     dirs.append(dirName + "\\" + fname)
         return dirs
 
