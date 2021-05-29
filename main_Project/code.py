@@ -80,10 +80,19 @@ def menuloop(curr):
 
     if want == "Y":
 
-        curr = int(input("\nKEY MENU\n1. Enter '1' to select KEY 1.\n2. Enter '2' to select KEY 2.\n3. Enter '3' to select KEY 3.\n4. Enter '4' to select KEY 4.\n"))
+        f = True
+        while f==True:
+            curr = int(input("\nKEY MENU\n1. Enter '1' to select KEY 1.\n2. Enter '2' to select KEY 2.\n3. Enter '3' to select KEY 3.\n4. Enter '4' to select KEY 4.\n"))
+            # print(curr)
+            if curr<=4 and curr>=1:
+                enc = Encryptor(key[curr])
+                f = False
+            else:
+                print("Please select a valid option!") 
+            
 
         # print(newKey)
-        enc = Encryptor(key[curr])
+        
             
         while True:        
             clear()
@@ -135,7 +144,9 @@ def menuloop(curr):
 
     
 
-print("COMPUTER NETWORK PROJECT\n\n")
-print("Made By:\nTejas Harish Borkar 2K18/CO/373\nTushar Ahuja        2K18/CO/373")
+clear()
+print("COMPUTER NETWORK PROJECT\n")
+print("Made By:\nTejas Harish Borkar 2K18/CO/373\nTushar Ahuja        2K18/CO/374")
+str(input(""))
 
 menuloop(curr)
